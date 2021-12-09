@@ -1,2 +1,3 @@
 # COVID19-Dashboard
-Data mining assignmentUK COVID-19 data analysis and dashboard
+Data mining assignment \
+UK COVID-19 data analysis and dashboard
