@@ -1,0 +1,6 @@
+Cases_by_date_reported
+areaType,areaName,areaCode,date,newCasesByPublishDate,cumCasesByPublishDate
+nation,England,E92000001,2021/12/3,43888,8802632
+nation,Northern Ireland,N92000002,2021/12/3,1908,325119
+nation,Scotland,S92000003,2021/12/3,2432,735750
+nation,Wales,W92000004,2021/12/3,2356,516146
