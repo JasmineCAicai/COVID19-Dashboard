@@ -6,6 +6,9 @@ import pandas as pd
 import plotly.graph_objects as go
 import json
 import numpy as np
+# from tensorflow.keras.models import load_model
+import matplotlib.pyplot as plt
+
 
 # TODO: all color hex codes
 colors = {
@@ -18,7 +21,8 @@ colors = {
     'white': '#FFFFFF',
     'label border': '#636EFC',
     'death line': '#FB902F',
-    'death text': '#FFEFA6'
+    'death text': '#FFEFA6',
+    'prediction text': '#FFFFFF',
 }
 
 # TODO: text style
@@ -207,6 +211,25 @@ wales_daily_deaths_fig.update_traces(line_color=colors['death line'])
 
 # daily death diagram stylesheet
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+
+# TODO: show prediction model
+y = np.load('asset/y.npy')
+pre = np.load('asset/pre.npy')
+Cases = pd.read_csv('dataset/Cases.csv')
+Cases_time = Cases.filter(['date'])
+Cases_time = Cases_time.iloc[:len(pre)]
+y = y[:len(pre)]
+combined_1 = pd.DataFrame(y, columns=['cases'])
+combined_2 = pd.DataFrame(pre, columns=['prediction'])
+combined = pd.concat([Cases_time, combined_1, combined_2], axis=1)
+prediction = px.line(combined, x="date", y=["cases", "prediction"], labels="cases", title="Prediction on Daily Cases")
+prediction.update_layout(
+    plot_bgcolor=colors['card background'],
+    paper_bgcolor=colors['card background'],
+    font_color=colors['prediction text']
+)
+
 
 # TODO: create app
 # app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -507,6 +530,32 @@ app.layout = html.Div(children=[
                 'font-size': label_font['font-size']
             }),
         ]),
+        style={
+            'width': '84%',
+            'background': colors['card background'],
+            'border-radius': '20px',
+            'margin-left': '70px',
+            'margin-right': '70px',
+            'margin-top': '40px',
+            'padding-top': '40px',
+            'padding-left': '30px',
+            'padding-right': '30px'
+        }
+    ),
+
+    html.Div(
+        dcc.Graph(
+            figure=prediction,
+            style={
+                'width': '100%',
+                'height': '500px',
+                'margin-left': '20px',
+                'margin-top': '10px',
+                'background-color': colors['card background'],
+                'color': colors['death text'],
+                'font-size': label_font['font-size']
+            }
+        ),
         style={
             'width': '84%',
             'background': colors['card background'],
